@@ -14,7 +14,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import {Menu} from '@mui/icons-material';
 import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar'
 import {Login} from "../features/login/Login";
-import {BrowserRouter, Route, Routes, Navigate} from "react-router-dom";
+import {BrowserRouter, Route, Routes, Navigate, HashRouter} from "react-router-dom";
 import {CircularProgress} from "@mui/material";
 import {logoutTC, setIsLoggedInAC} from "../features/login/auth-reducer";
 
@@ -57,14 +57,15 @@ function App({demo = false}: PropsType) {
                 {status === 'loading' && <LinearProgress/>}
             </AppBar>
             <Container fixed>
-                <BrowserRouter>
+                <HashRouter>
                     <Routes>
+                        <Route path='/' element={<TodolistsList/>}/>
                         <Route path='/Todo' element={<TodolistsList/>}/>
                         <Route path='login' element={<Login/>}/>
                         <Route path='/404' element={<h1>404 <h4>Oops..! PAGE NOT FOUND</h4></h1>}/>
                         <Route path='*' element={<Navigate to='/404'/>}/>
                     </Routes>
-                </BrowserRouter>
+                </HashRouter>
             </Container>
         </div>
     )
