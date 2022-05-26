@@ -46,7 +46,7 @@ function App({demo = false}: PropsType) {
             <ErrorSnackbar/>
             <AppBar position="static">
                 <Toolbar variant="dense">
-                    <IconButton edge="start" color="inherit" aria-label="menu"  sx={{mr: 2, color:"Turquoise"}}>
+                    <IconButton edge="start" color="inherit" aria-label="menu" sx={{mr: 2, color: "Turquoise"}}>
                         <Menu/>
                     </IconButton>
                     <Typography variant="h6">
@@ -59,7 +59,7 @@ function App({demo = false}: PropsType) {
             <Container fixed>
                 <BrowserRouter>
                     <Routes>
-                        <Route path='/' element={<TodolistsList/>}/>
+                        <Route path='/Todo' element={<TodolistsList/>}/>
                         <Route path='login' element={<Login/>}/>
                         <Route path='/404' element={<h1>404 <h4>Oops..! PAGE NOT FOUND</h4></h1>}/>
                         <Route path='*' element={<Navigate to='/404'/>}/>
