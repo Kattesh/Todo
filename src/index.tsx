@@ -7,10 +7,11 @@ import {Provider} from 'react-redux';
 import {store} from './app/store';
 import {createTheme, CssBaseline} from "@mui/material";
 import {ThemeProvider} from "@emotion/react";
+import {HashRouter} from "react-router-dom";
 
 const theme = createTheme({
         palette: {
-            mode:"dark"
+            mode: "dark"
         }
     }
 )
@@ -18,10 +19,12 @@ const theme = createTheme({
 ReactDOM.render(
     <React.StrictMode>
         <ThemeProvider theme={theme}>
-            <CssBaseline />
-        <Provider store={store}>
-            <App/>
-        </Provider>
+            <CssBaseline/>
+            <HashRouter>
+                <Provider store={store}>
+                    <App/>
+                </Provider>
+            </HashRouter>
         </ThemeProvider>
     </React.StrictMode>,
     document.getElementById('root')
