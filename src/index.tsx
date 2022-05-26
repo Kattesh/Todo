@@ -7,7 +7,7 @@ import {Provider} from 'react-redux';
 import {store} from './app/store';
 import {createTheme, CssBaseline} from "@mui/material";
 import {ThemeProvider} from "@emotion/react";
-import {HashRouter} from "react-router-dom";
+
 
 const theme = createTheme({
         palette: {
@@ -20,14 +20,11 @@ ReactDOM.render(
     <React.StrictMode>
         <ThemeProvider theme={theme}>
             <CssBaseline/>
-            <HashRouter>
-                <Provider store={store}>
-                    <App/>
-                </Provider>
-            </HashRouter>
+            <Provider store={store}>
+                <App/>
+            </Provider>
         </ThemeProvider>
-    </React.StrictMode>,
-    document.getElementById('root')
+    </React.StrictMode>, document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function
