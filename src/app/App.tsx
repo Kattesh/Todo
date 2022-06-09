@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import './App.css'
 import {TodolistsList} from '../features/TodolistsList/TodolistsList'
 import {useDispatch, useSelector} from 'react-redux'
-import {AppRootStateType} from './store'
+import {AppRootStateType, useAppSelector} from './store'
 import {initializeAppTC, RequestStatusType} from './app-reducer'
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -14,18 +14,16 @@ import LinearProgress from '@mui/material/LinearProgress';
 import {Menu} from '@mui/icons-material';
 import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar'
 import {Login} from "../features/login/Login";
-import {BrowserRouter, Route, Routes, Navigate, HashRouter} from "react-router-dom";
+import {Route, Routes, Navigate, HashRouter} from "react-router-dom";
 import {CircularProgress} from "@mui/material";
 import {logoutTC, setIsLoggedInAC} from "../features/login/auth-reducer";
 
-type PropsType = {
-    demo?: boolean
-}
 
-function App({demo = false}: PropsType) {
-    const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status)
-    const isInitialized = useSelector<AppRootStateType, boolean>((state) => state.app.isInitialized)
-    const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.app.isLoggedIn)
+
+function App() {
+    const status = useAppSelector((state) => state.app.status)
+    const isInitialized = useAppSelector((state) => state.app.isInitialized)
+    const isLoggedIn =useAppSelector((state) => state.app.isLoggedIn)
     const dispatch = useDispatch()
     const logOut = () => {
         dispatch(logoutTC())

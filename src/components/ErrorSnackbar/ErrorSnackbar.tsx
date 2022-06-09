@@ -15,7 +15,7 @@ export function ErrorSnackbar() {
     const error = useSelector<AppRootStateType, string | null>(state => state.app.error)
 
     const dispatch = useDispatch();
-
+//SyntheticEvent кроссбраузерная обертка
     const handleClose = (event?: React.SyntheticEvent|Event, reason?: string) => {
         if (reason === 'clickaway') {
             return;
