@@ -19,6 +19,7 @@ const rootReducer = combineReducers({
 export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 // определить автоматически тип всего объекта состояния
 export type AppRootStateType = ReturnType<typeof rootReducer>
+//кастомный хук
 export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
 
 

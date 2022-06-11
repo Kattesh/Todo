@@ -11,7 +11,11 @@ import {SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType} from '../
 import {handleServerAppError, handleServerNetworkError} from '../../utils/error-utils'
 
 const initialState: TasksStateType = {}
-
+export enum ResultCode{
+    success,
+    error,
+    captcha=10
+}
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
     switch (action.type) {
         case 'REMOVE-TASK':
@@ -19,11 +23,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
         case 'ADD-TASK':
             return {...state, [action.task.todoListId]: [action.task, ...state[action.task.todoListId]]}
         case 'UPDATE-TASK':
-            return {
-                ...state,
-                [action.todolistId]: state[action.todolistId]
-                    .map(t => t.id === action.taskId ? {...t, ...action.model} : t)
-            }
+            return {...state, [action.todolistId]: state[action.todolistId].map(t => t.id === action.taskId ? {...t, ...action.model} : t)}
         case 'ADD-TODOLIST':
             return {...state, [action.todolist.id]: []}
         case 'REMOVE-TODOLIST':
@@ -47,17 +47,9 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
 // actions
 export const removeTaskAC = (taskId: string, todolistId: string) => ({type: 'REMOVE-TASK', taskId, todolistId} as const)
 export const addTaskAC = (task: TaskType) => ({type: 'ADD-TASK', task} as const)
-export const updateTaskAC = (taskId: string, model: UpdateDomainTaskModelType, todolistId: string) => ({
-    type: 'UPDATE-TASK',
-    model,
-    todolistId,
-    taskId
-} as const)
+export const updateTaskAC = (taskId: string, model: UpdateDomainTaskModelType, todolistId: string) => ({type: 'UPDATE-TASK', model, todolistId, taskId} as const)
 export const setTasksAC = (tasks: Array<TaskType>, todolistId: string) => ({
-    type: 'SET-TASKS',
-    tasks,
-    todolistId
-} as const)
+    type: 'SET-TASKS', tasks, todolistId} as const)
 
 // thunks
 export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch<ActionsType | SetAppStatusActionType>) => {
@@ -72,24 +64,23 @@ export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch<ActionsT
 export const removeTaskTC = (taskId: string, todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
     todolistsAPI.deleteTask(todolistId, taskId)
         .then(res => {
-            const action = removeTaskAC(taskId, todolistId)
-            dispatch(action)
+            dispatch(removeTaskAC(taskId, todolistId))
         })
 }
 export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispatch<ActionsType | SetAppErrorActionType | SetAppStatusActionType>) => {
     dispatch(setAppStatusAC('loading'))
     todolistsAPI.createTask(todolistId, title)
         .then(res => {
-            if (res.data.resultCode === 0) {
-                const task = res.data.data.item
-                const action = addTaskAC(task)
-                dispatch(action)
+            if (res.data.resultCode === ResultCode.success) {
+                dispatch(addTaskAC(res.data.data.item))
                 dispatch(setAppStatusAC('succeeded'))
             } else {
                 handleServerAppError(res.data, dispatch);
             }
         })
         .catch((error) => {
+            // debugger
+            //см в Local про response error
             handleServerNetworkError(error, dispatch)
         })
 }
@@ -115,9 +106,8 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
 
         todolistsAPI.updateTask(todolistId, taskId, apiModel)
             .then(res => {
-                if (res.data.resultCode === 0) {
-                    const action = updateTaskAC(taskId, domainModel, todolistId)
-                    dispatch(action)
+                if (res.data.resultCode === ResultCode.success) {
+                    dispatch(updateTaskAC(taskId, domainModel, todolistId))
                 } else {
                     handleServerAppError(res.data, dispatch);
                 }
@@ -139,6 +129,7 @@ export type UpdateDomainTaskModelType = {
 export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
+
 type ActionsType =
     | ReturnType<typeof removeTaskAC>
     | ReturnType<typeof addTaskAC>

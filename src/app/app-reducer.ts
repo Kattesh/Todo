@@ -5,7 +5,7 @@ import {handleServerAppError, handleServerNetworkError} from "../utils/error-uti
 
 const initialState = {
     status: 'idle' as RequestStatusType,
-    error: null as string|null,
+    error: null as string | null,
     isInitialized: false,
     isLoggedIn: true
 }
@@ -29,13 +29,16 @@ export type InitialStateType = typeof initialState
 
 export const setAppErrorAC = (error: string | null) => ({type: 'APP/SET-ERROR', error} as const)
 export const setAppStatusAC = (status: RequestStatusType) => ({type: 'APP/SET-STATUS', status} as const)
-export const setAppInitializedAC = (isInitialized: boolean) => ({type: 'APP/SET-IS-INITIALIZED', isInitialized} as const)
+export const setAppInitializedAC = (isInitialized: boolean) => ({
+    type: 'APP/SET-IS-INITIALIZED',
+    isInitialized
+} as const)
 
 export type SetAppErrorActionType = ReturnType<typeof setAppErrorAC>
 export type SetAppStatusActionType = ReturnType<typeof setAppStatusAC>
 export type SetAppInitializActionType = ReturnType<typeof setAppInitializedAC>
 
-type AppActionsType =
+export type AppActionsType =
     | SetAppErrorActionType
     | SetAppStatusActionType
     | SetAppInitializActionType
