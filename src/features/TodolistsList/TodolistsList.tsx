@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect} from 'react'
-import {useDispatch} from 'react-redux'
-import { useAppSelector} from '../../app/store'
+import {useAppDispatch, useAppSelector} from '../../app/store'
 import {
     addTodolistTC,
     changeTodolistFilterAC,
@@ -21,7 +20,7 @@ import {Navigate, useNavigate} from "react-router-dom";
 export const TodolistsList: React.FC = () => {
     const todolists = useAppSelector(state => state.todolists)
     const tasks = useAppSelector(state => state.tasks)
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const navigate = useNavigate()
     useEffect(() => {
         if (isLoggedIn) {

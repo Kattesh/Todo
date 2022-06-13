@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import './App.css'
 import {TodolistsList} from '../features/TodolistsList/TodolistsList'
 import {useDispatch} from 'react-redux'
-import {useAppSelector} from './store'
+import {useAppDispatch, useAppSelector} from './store'
 import {initializeAppTC} from './app-reducer'
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -23,7 +23,7 @@ function App() {
     const status = useAppSelector((state) => state.app.status)
     const isInitialized = useAppSelector((state) => state.app.isInitialized)
     const isLoggedIn = useAppSelector((state) => state.app.isLoggedIn)
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const logOut = () => {
         dispatch(logoutTC())
     }
