@@ -1,20 +1,15 @@
 import {
-    addTaskAC,
-    removeTaskAC, setTasksAC,
     TasksActions,
-    tasksReducer,
-    updateTaskAC
+    tasksReducer
 } from '../features/TodolistsList/tasks-reducer';
 import {
-    addTodolistAC, changeTodolistEntityStatusAC, changeTodolistFilterAC, changeTodolistTitleAC, clearTodosData,
-    removeTodolistAC, setTodolistsAC,
     TodolistsActions,
     todolistsReducer
 } from '../features/TodolistsList/todolists-reducer';
 import {AnyAction, applyMiddleware, combineReducers, legacy_createStore as createStore} from 'redux'
 import thunkMiddleware, {ThunkAction, ThunkDispatch} from 'redux-thunk'
-import {AppActions, appReducer, setAppErrorAC, setAppInitializedAC, setAppStatusAC} from './app-reducer'
-import {AuthActions, authReducer, setIsLoggedInAC} from "../features/login/auth-reducer";
+import {AppActions, appReducer} from './app-reducer'
+import {AuthActions, authReducer} from "../features/login/auth-reducer";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 
 const rootReducer = combineReducers({
