@@ -56,7 +56,7 @@ export const logoutTC = () => (dispatch: Dispatch<AuthActions>) => {
 }
 
 
-type AuthActions =
+export type AuthActions =
     | ReturnType<typeof setIsLoggedInAC>
     | ReturnType<typeof setAppStatusAC>
     | ReturnType<typeof clearTodosData>

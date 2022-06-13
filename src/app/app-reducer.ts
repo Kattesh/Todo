@@ -34,15 +34,6 @@ export const setAppInitializedAC = (isInitialized: boolean) => ({
     isInitialized
 } as const)
 
-// export type SetAppErrorActionType = ReturnType<typeof setAppErrorAC>
-// export type SetAppStatusActionType = ReturnType<typeof setAppStatusAC>
-
-
-export type AppActions =
-    | ReturnType<typeof setAppErrorAC>
-    | ReturnType<typeof setAppStatusAC>
-    | ReturnType<typeof setAppInitializedAC>
-
 export const initializeAppTC = () => (dispatch: Dispatch) => {
     authAPI.me().then(res => {
         if (res.data.resultCode === 0) {
@@ -59,3 +50,9 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
             dispatch(setAppInitializedAC(true))
         })
 }
+
+
+export type AppActions =
+    | ReturnType<typeof setAppErrorAC>
+    | ReturnType<typeof setAppStatusAC>
+    | ReturnType<typeof setAppInitializedAC>

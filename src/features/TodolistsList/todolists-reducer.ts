@@ -90,7 +90,7 @@ export const changeTodolistTitleTC = (id: string, title: string) => {
     }
 }
 
-type TodolistsActions =
+export type TodolistsActions =
     | ReturnType<typeof removeTodolistAC>
     | ReturnType<typeof addTodolistAC>
     | ReturnType<typeof changeTodolistTitleAC>
