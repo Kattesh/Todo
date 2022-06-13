@@ -1,5 +1,5 @@
 import {
-    addTodolistAC,
+    addTodolistAC, clearTodosData,
     removeTodolistAC,
     setTodolistsAC,
 
@@ -14,7 +14,7 @@ import {
 } from '../../api/todolists-api'
 import {Dispatch} from 'redux'
 import {RootState} from '../../app/store'
-import {SetAppErrorActionType, setAppStatusAC, SetAppStatusActionType} from '../../app/app-reducer'
+import {setAppStatusAC} from '../../app/app-reducer'
 import {handleServerAppError, handleServerNetworkError} from '../../utils/error-utils'
 
 const initialState: TasksStateType = {}
@@ -26,7 +26,10 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Tasks
         case 'ADD-TASK':
             return {...state, [action.task.todoListId]: [action.task, ...state[action.task.todoListId]]}
         case 'UPDATE-TASK':
-            return {...state, [action.todolistId]: state[action.todolistId].map(t => t.id === action.taskId ? {...t, ...action.model} : t)}
+            return {
+                ...state,
+                [action.todolistId]: state[action.todolistId].map(t => t.id === action.taskId ? {...t, ...action.model} : t)
+            }
         case 'ADD-TODOLIST':
             return {...state, [action.todolist.id]: []}
         case 'REMOVE-TODOLIST':
@@ -42,6 +45,8 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Tasks
         }
         case 'SET-TASKS':
             return {...state, [action.todolistId]: action.tasks}
+        case "CLEAR-DATA":
+            return {}
         default:
             return state
     }
@@ -50,12 +55,18 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Tasks
 
 export const removeTaskAC = (taskId: string, todolistId: string) => ({type: 'REMOVE-TASK', taskId, todolistId} as const)
 export const addTaskAC = (task: TaskType) => ({type: 'ADD-TASK', task} as const)
-export const updateTaskAC = (taskId: string, model: UpdateDomainTaskModelType, todolistId: string) => ({type: 'UPDATE-TASK', model, todolistId, taskId} as const)
+export const updateTaskAC = (taskId: string, model: UpdateDomainTaskModelType, todolistId: string) => ({
+    type: 'UPDATE-TASK',
+    model,
+    todolistId,
+    taskId
+} as const)
 export const setTasksAC = (tasks: Array<TaskType>, todolistId: string) => ({
-    type: 'SET-TASKS', tasks, todolistId} as const)
+    type: 'SET-TASKS', tasks, todolistId
+} as const)
 
 
-export const fetchTasksTC = (todolistId: string) => (dispatch: Dispatch<TasksActions | SetAppStatusActionType>) => {
+export const fetchTasksTC = (todolistId: string) => (dispatch: ThunkDispatch) => {
     dispatch(setAppStatusAC('loading'))
     todolistsAPI.getTasks(todolistId)
         .then((res) => {
@@ -70,7 +81,7 @@ export const removeTaskTC = (taskId: string, todolistId: string) => (dispatch: D
             dispatch(removeTaskAC(taskId, todolistId))
         })
 }
-export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispatch<TasksActions | SetAppErrorActionType | SetAppStatusActionType>) => {
+export const addTaskTC = (title: string, todolistId: string) => (dispatch:ThunkDispatch) => {
     dispatch(setAppStatusAC('loading'))
     todolistsAPI.createTask(todolistId, title)
         .then(res => {
@@ -141,4 +152,5 @@ type TasksActions =
     | ReturnType<typeof addTodolistAC>
     | ReturnType<typeof setTodolistsAC>
     | ReturnType<typeof setTasksAC>
-type ThunkDispatch = Dispatch<TasksActions | SetAppStatusActionType | SetAppErrorActionType>
+    | ReturnType<typeof clearTodosData>
+type ThunkDispatch = Dispatch<TasksActions | ReturnType<typeof setAppStatusAC>>
