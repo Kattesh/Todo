@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
 import {loginTC} from "./auth-reducer";
-import {AppRootStateType} from "../../app/store";
+import {RootState} from "../../app/store";
 import {Navigate} from "react-router-dom";
 import {LoginParamsType} from "../../api/todolists-api";
 
@@ -22,7 +22,7 @@ import {LoginParamsType} from "../../api/todolists-api";
 
 export const Login = () => {
     const dispatch = useDispatch()
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+    const isLoggedIn = useSelector<RootState, boolean>(state => state.auth.isLoggedIn)
     const formik = useFormik({
         initialValues: {
             email: '',

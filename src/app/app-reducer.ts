@@ -9,8 +9,8 @@ const initialState = {
     isInitialized: false,
     isLoggedIn: true
 }
-// глобально исрользуется во всем приложении
-export const appReducer = (state: InitialStateType = initialState, action: AppActionsType): InitialStateType => {
+
+export const appReducer = (state: InitialStateType = initialState, action: AppActions): InitialStateType => {
     switch (action.type) {
         case 'APP/SET-STATUS':
             return {...state, status: action.status}
@@ -38,7 +38,7 @@ export type SetAppErrorActionType = ReturnType<typeof setAppErrorAC>
 export type SetAppStatusActionType = ReturnType<typeof setAppStatusAC>
 export type SetAppInitializActionType = ReturnType<typeof setAppInitializedAC>
 
-export type AppActionsType =
+export type AppActions =
     | SetAppErrorActionType
     | SetAppStatusActionType
     | SetAppInitializActionType

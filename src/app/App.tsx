@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react'
 import './App.css'
 import {TodolistsList} from '../features/TodolistsList/TodolistsList'
-import {useDispatch, useSelector} from 'react-redux'
-import {AppRootStateType, useAppSelector} from './store'
-import {initializeAppTC, RequestStatusType} from './app-reducer'
+import {useDispatch} from 'react-redux'
+import {useAppSelector} from './store'
+import {initializeAppTC} from './app-reducer'
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -16,14 +16,13 @@ import {ErrorSnackbar} from '../components/ErrorSnackbar/ErrorSnackbar'
 import {Login} from "../features/login/Login";
 import {Route, Routes, Navigate, HashRouter} from "react-router-dom";
 import {CircularProgress} from "@mui/material";
-import {logoutTC, setIsLoggedInAC} from "../features/login/auth-reducer";
-
+import {logoutTC} from "../features/login/auth-reducer";
 
 
 function App() {
     const status = useAppSelector((state) => state.app.status)
     const isInitialized = useAppSelector((state) => state.app.isInitialized)
-    const isLoggedIn =useAppSelector((state) => state.app.isLoggedIn)
+    const isLoggedIn = useAppSelector((state) => state.app.isLoggedIn)
     const dispatch = useDispatch()
     const logOut = () => {
         dispatch(logoutTC())

@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useCallback} from 'react'
 import {EditableSpan} from '../../../../components/EditableSpan/EditableSpan'
-import { Favorite} from '@mui/icons-material';
+import {Favorite} from '@mui/icons-material';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import IconButton from '@mui/material/IconButton';
 import Checkbox from '@mui/material/Checkbox';
@@ -29,7 +29,7 @@ export const Task = React.memo((props: TaskPropsType) => {
         <Checkbox
             checked={props.task.status === TaskStatuses.Completed}
             color="secondary"
-            icon={<Favorite />}
+            icon={<Favorite/>}
             checkedIcon={<Favorite/>}
             onChange={onChangeHandler}
         />
