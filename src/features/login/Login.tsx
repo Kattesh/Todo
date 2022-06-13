@@ -8,9 +8,9 @@ import FormLabel from '@mui/material/FormLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import {useFormik} from "formik";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {loginTC} from "./auth-reducer";
-import {RootState} from "../../app/store";
+import {useAppSelector} from "../../app/store";
 import {Navigate} from "react-router-dom";
 import {LoginParamsType} from "../../api/todolists-api";
 
@@ -22,7 +22,7 @@ import {LoginParamsType} from "../../api/todolists-api";
 
 export const Login = () => {
     const dispatch = useDispatch()
-    const isLoggedIn = useSelector<RootState, boolean>(state => state.auth.isLoggedIn)
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -35,7 +35,7 @@ export const Login = () => {
         },
 
         validate: (values) => {
-            const errors:  Partial<Omit<LoginParamsType, 'captcha'>> = {};
+            const errors: Partial<Omit<LoginParamsType, 'captcha'>> = {};
             if (!values.email) {
                 errors.email = 'Required';
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
@@ -89,7 +89,7 @@ export const Login = () => {
                                               checked={formik.values.rememberMe}
                                               {...formik.getFieldProps('rememberMe')}
                                           />}/>
-                        <Button type={'submit'} variant={'contained'}color={'primary'}>
+                        <Button type={'submit'} variant={'contained'} color={'primary'}>
                             Login
                         </Button>
                     </FormGroup>

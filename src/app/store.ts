@@ -4,7 +4,7 @@ import {applyMiddleware, combineReducers, legacy_createStore as createStore} fro
 import thunkMiddleware from 'redux-thunk'
 import {appReducer} from './app-reducer'
 import {authReducer} from "../features/login/auth-reducer";
-import {TypedUseSelectorHook, useSelector} from "react-redux";
+import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,
@@ -16,6 +16,12 @@ const rootReducer = combineReducers({
 export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
 export type RootState = ReturnType<typeof rootReducer>
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+export const useAppDispatch = () => useDispatch<AppDispatch>()
+export type AppDispatch = typeof store.dispatch
+// export type AppDispatch = ThunkDispatch<RootState, unknown, StoreActionsType>
+// export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, AnyAction>
+// type StoreActionsType = TodolistsActions | TasksActions | AuthActions | AppActionsType
+
 
 // а это, чтобы можно было в консоли браузера обращаться к store в любой момент
 // @ts-ignore
